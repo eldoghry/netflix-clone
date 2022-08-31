@@ -6,28 +6,35 @@ const Row = (props) => {
   const baseUrl = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
+    let isCanceled = false;
     async function fetchingMovies(url) {
       await axios
         .get(url)
         .then((data) => {
-          setMovies(data.data.results);
+          if (!isCanceled) {
+            setMovies(data.data.results);
+          }
         })
         .catch((err) => console.log(err));
     }
     fetchingMovies(props.urlFetcher);
+
+    return () => {
+      isCanceled = true;
+    };
   }, []);
 
-  useEffect(() => {
-    console.log(props.title);
-    console.log(movies);
-  }, [movies]);
+  // useEffect(() => {
+  //   console.log(props.title);
+  //   console.log(movies);
+  // }, [movies]);
 
   if (movies && movies.length === 0) return <p>Loading ... </p>;
 
   return (
     <div className="row">
-      <h3>{props.title}</h3>
-      <div className="row_posters">
+      <h3 className="header_secondary">{props.title}</h3>
+      <div className="row_container">
         {movies.map((movie) => (
           <img
             src={`${baseUrl}${movie.backdrop_path}`}
