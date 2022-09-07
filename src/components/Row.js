@@ -4,20 +4,28 @@ import axios from "../helper/axios";
 const Row = (props) => {
   const [movies, setMovies] = useState([]);
   const baseUrl = "https://image.tmdb.org/t/p/original";
+  let debounce;
 
   useEffect(() => {
     let isCanceled = false;
-    async function fetchingMovies(url) {
-      await axios
-        .get(url)
-        .then((data) => {
-          if (!isCanceled) {
-            setMovies(data.data.results);
-          }
-        })
-        .catch((err) => console.log(err));
+    // clearTimeout(debounce);
+
+    async function fetchingMovies() {
+      clearTimeout(debounce);
+      debounce = setTimeout(async () => {
+        await axios
+          .get(props.urlFetcher)
+          .then((data) => {
+            if (!isCanceled) {
+              setMovies(data.data.results);
+            }
+          })
+          .catch((err) => console.log(err));
+      }, 500);
     }
-    fetchingMovies(props.urlFetcher);
+
+    fetchingMovies();
+    // fetchingMovies(props.urlFetcher);
 
     return () => {
       isCanceled = true;

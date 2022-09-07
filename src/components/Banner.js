@@ -43,8 +43,8 @@ const Banner = (props) => {
 
         <span className="banner__rating">
           {ratingFill &&
-            [...Array(ratingFill)].map(() => {
-              return <FaStar />;
+            [...Array(ratingFill)].map((_, index) => {
+              return <FaStar key={index} />;
             })}
 
           {ratingOut && <FaStarHalfAlt />}
@@ -59,10 +59,10 @@ export default Banner;
 
 function calcRating(avgRating) {
   let rate = avgRating / 2;
-  let reminder = rate % 2;
+  let reminder = parseFloat((rate % 1).toFixed(2));
   let decimal = rate - reminder;
 
   console.log(avgRating, decimal, reminder);
 
-  return [decimal, reminder > 0 ];
+  return [decimal, reminder > 0];
 }
