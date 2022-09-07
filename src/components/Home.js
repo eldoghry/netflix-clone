@@ -12,7 +12,7 @@ const Home = () => {
 
       <div className="home">
         <Banner />
-        {/* <Row
+        <Row
         urlFetcher={urlFetcher.trending}
         title={"Trending Now"}
         isLargePoster={true}
@@ -26,7 +26,7 @@ const Home = () => {
       urlFetcher={urlFetcher.popular}
       title={"Most Popular"}
       isLargePoster={false}
-    /> */}
+    />
       </div>
     </>
   );
